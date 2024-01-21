@@ -5,4 +5,8 @@ The application communicates with a CodeProject API to detect objects. There are
 
 A API can be containerized using the provided docker-compose.yaml file. Need docker desktop to run it.
 
+The application have some problems about the dinamic forwarding and i don't know why(and my professor too)
+
+After all the microservices are running, the Api Cloud Gateway have the url [localhost:](http://localhost:8755/)http://localhost:8755/
+
 
