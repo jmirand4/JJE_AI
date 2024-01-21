@@ -9,4 +9,6 @@ The application have some problems about the dinamic forwarding and i don't know
 
 After all the microservices are running, the Api Cloud Gateway have the url [localhost:](http://localhost:8755/)http://localhost:8755/
 
+Classification: 18/20
+
 
