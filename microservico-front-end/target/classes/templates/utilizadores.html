@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Lista de Utilizadores</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" th:href="@{/menu}">JJE AI</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/menu/admin}">Admin</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/logout}">Logout</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container mt-4">
+    <h2>Lista de Utilizadores</h2>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Esta Bloqueado</th>
+            <th>Role</th>
+            <th>Editar / Banir / Desbanir</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="utilizador : ${utilizadores}">
+            <td th:text="${utilizador.userId}"></td>
+            <td th:text="${utilizador.username}"></td>
+            <td th:text="${utilizador.estaBloqueado}"></td>
+            <td th:text="${utilizador.role.name}"></td>
+            <td>
+                <button type="button" class="btn btn-primary" data-toggle="modal" th:attr="data-target='#editarModal' + ${utilizador.userId}">Editar</button>
+                <button type="button" class="btn btn-danger" data-toggle="modal" th:attr="data-target='#banirModal' + ${utilizador.userId}">Banir</button>
+                <button type="button" class="btn btn-info" data-toggle="modal" th:attr="data-target='#desbanirModal' + ${utilizador.userId}">Desbanir</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- Modal de Edição -->
+    <div th:each="utilizador : ${utilizadores}" th:id="'editarModal' + ${utilizador.userId}" class="modal fade" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Editar Perfil - <span th:text="${utilizador.username}"></span></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form th:action="@{/menu/admin/utilizadores/editar}" method="post">
+                        <div class="form-group">
+                            <label for="editUserId">ID do Utilizador:</label>
+                            <input type="text" class="form-control" id="editUserId" name="userId" th:value="${utilizador.userId}" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="editNome">Novo Nome:</label>
+                            <input type="text" class="form-control" id="editNome" name="nome" th:value="${utilizador.username}" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editSenha">Nova Senha:</label>
+                            <input type="password" class="form-control" id="editSenha" name="senha" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Salvar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Banimento -->
+    <div th:each="utilizador : ${utilizadores}" th:id="'banirModal' + ${utilizador.userId}" class="modal fade" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Banir Utilizador - <span th:text="${utilizador.username}"></span></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Tem certeza de que deseja banir o utilizador? <span th:text="${utilizador.username}"></span>?</p>
+                    <form th:action="@{/menu/admin/utilizadores/banir}" method="post">
+                        <input type="hidden" name="userId" th:value="${utilizador.userId}">
+                        <button type="submit" class="btn btn-danger">Banir</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Desbanimento -->
+    <div th:each="utilizador : ${utilizadores}" th:id="'desbanirModal' + ${utilizador.userId}" class="modal fade" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Desbanir Utilizador - <span th:text="${utilizador.username}"></span></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>Tem certeza de que deseja desbanir o utilizador? <span th:text="${utilizador.username}"></span>?</p>
+                    <form th:action="@{/menu/admin/utilizadores/desbanir}" method="post">
+                        <input type="hidden" name="userId" th:value="${utilizador.userId}">
+                        <button type="submit" class="btn btn-danger">Desbanir</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>

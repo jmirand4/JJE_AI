@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lista de Tarefas</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<!-- Barra de Navegação -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" th:href="@{/menu}">JJE AI</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+          aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <a class="nav-link" th:href="@{/menu/perfil}">Perfil</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" th:href="@{/menu/upload}">Upload</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" th:href="@{/menu/tarefas}">Tarefas</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" th:href="@{/logout}">Logout</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+<div class="container mt-5">
+  <h2>Lista de Tarefas</h2>
+
+  <div th:if="${#lists.isEmpty(tarefas)}">
+    <p th:text="${mensagem}"></p>
+  </div>
+
+  <div th:if="${not #lists.isEmpty(tarefas)}">
+    <table class="table">
+      <thead>
+      <tr>
+        <th></th>
+        <th>Imagem</th>
+        <th>Detalhes</th> <!-- Adicionando uma coluna para o botão de detalhes -->
+      </tr>
+      </thead>
+      <tbody th:each="tarefa, index : ${tarefas}">
+      <tr>
+        <td></td>
+        <td>
+          <img th:src="'data:image/png;base64,' + ${imagens[__${index.index}__]}" alt="Imagem da Tarefa" class="img-thumbnail" style="max-width: 200px; height: auto;" />
+        </td>
+        <!-- Botão de detalhes -->
+        <td>
+          <button type="button" class="btn btn-primary" th:data-toggle="'modal'" th:data-target="'#detalhesModal' + ${index.index}">
+            Detalhes
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Modal para exibir os detalhes da tarefa -->
+  <div th:each="tarefa, index : ${tarefas}">
+    <div class="modal fade" th:id="'detalhesModal' + ${index.index}" tabindex="-1" role="dialog" aria-labelledby="detalhesModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" th:id="'detalhesModalLabel' + ${index.index}">Detalhes da Tarefa</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <!-- Conteúdo dos detalhes da tarefa caso não tenha sido cancelada-->
+            <div th:if="${tarefa.estado == 'CONCLUIDA'}">
+              <p th:text="'Estado: ' + ${tarefa.estado}"></p>
+              <p th:text="'Objetos Identificados: ' + ${tarefa.objetosIdentificados}"></p>
+              <p th:text="'Data Início: ' + ${tarefa.dataInicio}"></p>
+              <p th:text="'Data Final: ' + ${tarefa.dataFim}"></p>
+              <p th:text="'Duração: ' + ${tarefa.duracao}"></p>
+            </div>
+            <!-- Conteúdo dos detalhes da tarefa caso tenha sido cancelada-->
+            <div th:if="${tarefa.estado == 'CANCELADA'}">
+              <h6 th:text="'Estado: ' + ${tarefa.estado}"></h6>
+              <p> Ocorreu um erro inesperado. Tente novamente.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Fim do modal -->
+
+</div>
+
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

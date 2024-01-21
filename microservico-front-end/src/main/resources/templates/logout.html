@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Logout</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <!-- Adicione esta verificação antes de usar #fields.hasErrors -->
+    <div th:if="${confirmUpdate ne null}">
+        <div class="alert alert-info col-xs-offset-1 col-xs-10">
+            <h1 th:text="${confirmUpdate}"></h1>
+        </div>
+    </div>
+
+    <div th:if="${confirmUpdate eq null}">
+    <h1 class="text-center">Logout com sucesso!</h1>
+    </div>
+
+    <a class="btn btn-success d-block mx-auto mt-3" th:href="@{/login}">Login</a>
+</div>
+</body>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</html>

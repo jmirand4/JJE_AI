@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload</title>
+    <!-- Adicione os links para os recursos do Bootstrap -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<!-- Barra de Navegação -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" th:href="@{/menu}">JJE AI</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/menu/perfil}">Perfil</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/menu/upload}">Upload</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link"  th:href="@{/menu/tarefas}">Tarefas</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/logout}">Logout</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<!-- Conteúdo da Página -->
+<div class="container mt-4">
+    <h2 class="mb-4">Fazer Upload de Imagem</h2>
+
+    <!-- Caso haja erro na imagem -->
+    <div th:if="${erroImagem ne null}">
+        <p th:text="${erroImagem}"></p>
+    </div>
+
+    <!-- Caso haja erro a conectar na API -->
+    <div th:if="${erroUpload ne null}">
+        <p th:text="${erroUpload}"></p>
+    </div>
+
+
+    <form th:action="@{/menu/upload}" method="post" enctype="multipart/form-data">
+        <div class="custom-file">
+            <input type="file" class="custom-file-input" id="imagem" name="imagem" accept="image/*">
+            <label class="custom-file-label" for="imagem">Escolha uma imagem</label>
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Enviar</button>
+    </form>
+</div>
+
+<!-- Adicione os scripts do Bootstrap e do jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

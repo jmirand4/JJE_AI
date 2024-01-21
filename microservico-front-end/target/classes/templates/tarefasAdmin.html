@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Lista de Tarefas</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" th:href="@{/menu}">JJE AI</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/menu/admin}">Admin</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/logout}">Logout</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container mt-4">
+    <h2>Lista de Tarefas</h2>
+
+    <div th:if="${semTarefas}">
+        <p>Não há tarefas criadas.</p>
+    </div>
+
+    <div th:if="${semTarefas eq null}">
+        <table class="table">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome de utilizador</th>
+                <th>Estado</th>
+                <th>Data Inicio</th>
+                <th>Data Final</th>
+                <th>Duração</th>
+                <th>Objetos Identificados</th>
+                <th>Cancelar / Permitir Acesso</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="tarefa : ${tarefas}">
+                <td th:text="${tarefa.tarefaId}"></td>
+                <td th:text="${users[tarefa.utilizadorId]}"></td>
+                <td th:text="${tarefa.estado}"></td>
+                <td th:text="${tarefa.dataInicio}"></td>
+                <td th:text="${tarefa.dataFim}"></td>
+                <td th:text="${tarefa.duracao}"></td>
+                <td th:text="${tarefa.objetosIdentificados}"></td>
+                <td>
+                    <button type="button" class="btn btn-danger" data-toggle="modal" th:attr="data-target='#banirModal' + ${tarefa.tarefaId}">Banir</button>
+                    <button type="button" class="btn btn-info" data-toggle="modal" th:attr="data-target='#permitiracessoModal' + ${tarefa.tarefaId}">Permitir Acesso</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<!-- Modal de Banimento -->
+<div th:each="tarefa : ${tarefas}" th:id="'banirModal' + ${tarefa.tarefaId}" class="modal fade" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Cancelar Tarefa</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Tem certeza de que deseja cancelar a tarefa do utilizador <span th:text="${users[tarefa.utilizadorId]}"></span>?</p>
+                <form th:action="@{/menu/admin/tarefas/banir}" method="post">
+                    <input type="hidden" name="tarefaId" th:value="${tarefa.tarefaId}">
+                    <button type="submit" class="btn btn-danger">Banir</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Desbanimento -->
+<div th:each="tarefa : ${tarefas}" th:id="'permitiracessoModal' + ${tarefa.tarefaId}" class="modal fade" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Permitir Acesso a Tarefa</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Tem certeza de que deseja permitir o acesso à tarefa do utilizador <span th:text="${users[tarefa.utilizadorId]}"></span>?</p>
+                <form th:action="@{/menu/admin/tarefas/permitir}" method="post">
+                    <input type="hidden" name="tarefaId" th:value="${tarefa.tarefaId}">
+                    <button type="submit" class="btn btn-danger">Permitir Acesso</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>

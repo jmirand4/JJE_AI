@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JJE AI - Registro</title>
+    <!-- Adicione os links para os recursos do Bootstrap -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<!-- Conteúdo da Página -->
+<div class="container mt-4">
+    <h2 class="mb-4">Registo</h2>
+
+    <!-- Exibir mensagem de erro -->
+    <div th:if="${registoError}" class="alert alert-danger" role="alert">
+        <span th:text="${registoError}"></span>
+    </div>
+
+    <!-- Exibir mensagem de utilizador já existente -->
+    <div th:if="${registoJaExiste}" class="alert alert-warning" role="alert">
+        <span th:text="${registoJaExiste}"></span>
+    </div>
+
+    <form th:action="@{/register}" method="post">
+        <div class="form-group">
+            <label for="username">Username:</label>
+            <input type="text" class="form-control" id="username" name="username" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" class="form-control" id="password" name="password" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Registrar</button>
+    </form>
+</div>
+
+<!-- Adicione os scripts do Bootstrap e do jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
