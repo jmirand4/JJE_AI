@@ -1,0 +1,17 @@
+version: '3'
+services:
+  CodeProjectAI:
+    image: codeproject/ai-server
+    container_name: "CodeProjectAI"
+    ports:
+      - "32168:32168"
+    environment:
+      - TZ=America/Toronto
+    volumes:
+      - cpaidata:/etc/codeproject/ai
+      - cpaimodules:/app/modules
+    restart: unless-stopped
+
+volumes:
+  cpaidata:
+  cpaimodules:
