@@ -1,0 +1,9 @@
+#URL de acesso direto
+http://localhost:8020/monolitico/faturas/tesla/2000/20
+http://localhost:8020/faturas/tesla/2000/20
+http://localhost:8010/veiculos/tesla
+
+#URL via API Gateway
+http://localhost:8755/MICROSERVICO2-FATURACAO/monolitico/faturas/tesla/2000/20
+http://localhost:8755/MICROSERVICO2-FATURACAO/faturas/tesla/2000/20
+http://localhost:8755/MICROSERVICO1-VEICULOS-ELETRICOS/veiculos/tesla
