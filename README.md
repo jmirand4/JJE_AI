@@ -7,7 +7,7 @@ A API can be containerized using the provided docker-compose.yaml file. Need doc
 
 The application have some problems about the dinamic forwarding and i don't know why (and my professor too).
 
-After all the microservices are running, the Api Cloud Gateway have the url [localhost:](http://localhost:8755/)http://localhost:8755/
+After all the microservices are running, the Api Cloud Gateway have the url [localhost: ](http://localhost:8755/)http://localhost:8755/
 
 Classification: 18/20
 
